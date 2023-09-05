@@ -1,28 +1,41 @@
 <template>
-  <VideoUpload msg="Video Upload"/>
-  <VideoList msg="Video List"/>
+  <div id="app">
+    <nav>
+      <router-link to="/">Upload Video</router-link>
+      <router-link to="/video-list">Video List</router-link>
+    </nav>
+
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import VideoUpload from './components/VideoUpload.vue'
-import VideoList from './components/VideoList.vue'
-
 export default {
   name: 'App',
-  components: {
-    VideoUpload,
-    VideoList
-  }
 }
 </script>
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
+}
+
+nav {
+  background-color: #333;
+  padding: 10px;
+}
+
+router-link {
+  margin: 0 10px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+router-link.active {
+  color: #42b983;
 }
 </style>
