@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <nav>
+    <nav class="top-nav">
       <router-link to="/">Upload Video</router-link>
+      <span class="nav-spacer"></span>
       <router-link to="/video-list">Video List</router-link>
     </nav>
 
@@ -23,16 +24,19 @@ export default {
   margin-top: 20px;
 }
 
-nav {
-  background-color: #333;
+.top-nav {
+  background-color: #3498db; 
   padding: 10px;
 }
 
 router-link {
-  margin: 0 10px;
-  color: #fff;
+  color: #fff; 
   text-decoration: none;
   font-weight: bold;
+}
+
+.nav-spacer {
+  margin: 0 20px;
 }
 
 router-link.active {
