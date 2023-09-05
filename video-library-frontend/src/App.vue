@@ -1,14 +1,17 @@
 <template>
-  <VideoUpload msg="Welcome to Your MVP App"/>
+  <VideoUpload msg="Video Upload"/>
+  <VideoList msg="Video List"/>
 </template>
 
 <script>
 import VideoUpload from './components/VideoUpload.vue'
+import VideoList from './components/VideoList.vue'
 
 export default {
   name: 'App',
   components: {
-    VideoUpload
+    VideoUpload,
+    VideoList
   }
 }
 </script>
