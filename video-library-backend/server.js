@@ -1,6 +1,8 @@
 const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs'); // Require the 'fs' module
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -15,14 +17,24 @@ const upload = multer({ storage: storage });
 // Sample array to store uploaded videos
 const videos = [];
 
+// Serve video files from a directory (e.g., 'videos')
+app.use('/videos', express.static(path.join(__dirname, 'videos')));
+
 // Handle video upload (POST)
 app.post('/upload', upload.single('video'), (req, res) => {
   try {
     const video = req.file;
-    // Process the uploaded video, generate a shareable link, and save it if needed.
-    // For example, you can save the video to the 'videos' array.
-    videos.push({ name: video.originalname, link: 'https://example.com/share/link/' + video.originalname });
-    res.status(200).json({ message: 'Video uploaded successfully', link: 'https://example.com/share/link/' + video.originalname });
+    // Generate a unique identifier for the video (e.g., a random string or filename)
+    const uniqueIdentifier = generateUniqueIdentifier();
+    // Rename the video file with the unique identifier
+    const renamedFileName = `${uniqueIdentifier}_${video.originalname}`;
+    // Create a shareable link
+    const shareableLink = `http://localhost:3000/videos/${renamedFileName}`;
+    // Store the video with its shareable link
+    videos.push({ link: shareableLink, name: video.originalname });
+    // Move the uploaded file to the 'videos' directory with the renamed filename
+    fs.writeFileSync(path.join(__dirname, 'videos', renamedFileName), video.buffer);
+    res.status(200).json({ message: 'Video uploaded successfully', link: shareableLink });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred while processing the video' });
@@ -38,3 +50,8 @@ app.get('/videos', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+// Function to generate a unique identifier (simplified)
+function generateUniqueIdentifier() {
+  return Math.random().toString(36).substring(7);
+}

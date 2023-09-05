@@ -26,7 +26,7 @@ export default {
 
     const generateShareableLink = (video) => {
       // Simulate generating a shareable link for the video
-      video.shareableLink = 'https://example.com/share/' + video.name;
+      video.shareableLink = video.link;
     };
 
     const fetchVideos = () => {
