@@ -17,19 +17,37 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useStore } from 'vuex';
+import { ref, onMounted } from 'vue';
+import axios from 'axios'; // Import Axios for making HTTP requests
 
 export default {
   setup() {
-    const store = useStore();
     const videos = ref([]);
-    videos.value = store.state.videos;
 
     const generateShareableLink = (video) => {
       // Simulate generating a shareable link for the video
       video.shareableLink = 'https://example.com/share/' + video.name;
     };
+
+    const fetchVideos = () => {
+      axios
+        .get('http://localhost:3000/videos') // Replace with your server's URL
+        .then((response) => {
+          if (response.status === 200) {
+            videos.value = response.data; // Update the videos array with data from the server
+          } else {
+            console.error('Unexpected status code:', response.status);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching videos:', error);
+        });
+    };
+
+    // Fetch videos when the component is mounted
+    onMounted(() => {
+      fetchVideos();
+    });
 
     return {
       videos,

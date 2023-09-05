@@ -30,29 +30,34 @@ export default {
     };
 
     const uploadVideo = () => {
-      if (!selectedFile.value) {
-        return;
-      }
+  if (!selectedFile.value) {
+    return;
+  }
 
-      // Create a FormData object to send the file to the server
-      const formData = new FormData();
-      formData.append('video', selectedFile.value);
+  // Create a FormData object to send the file to the server
+  const formData = new FormData();
+  formData.append('video', selectedFile.value);
 
-      // Make a POST request to the server
-      axios
-        .post('http://localhost:3000/upload', formData) // Replace with your server's URL
-        .then((response) => {
-          const newVideo = { name: selectedFileName.value, shareableLink: response.data.link };
-          // You can also save the video to Vuex or update the UI as needed
-          uploadSuccess.value = true;
-          console.log('Video uploaded successfully');
-          selectedFile.value = null;
-          selectedFileName.value = '';
-        })
-        .catch((error) => {
-          console.error('Error uploading video:', error);
-        });
-    };
+  // Make a POST request to the server
+  axios
+  .post('http://localhost:3000/upload', formData)
+  .then((response) => {
+    if (response.status === 200) {
+      // The video was successfully uploaded
+      uploadSuccess.value = true;
+      console.log('Video uploaded successfully');
+      selectedFile.value = null;
+      selectedFileName.value = '';
+    } else {
+      // Handle other status codes here if needed
+      console.error('Unexpected status code:', response.status);
+    }
+  })
+  .catch((error) => {
+    console.error('Error uploading video:', error);
+  });
+};
+
 
     return {
       selectedFile,
