@@ -5,11 +5,11 @@
     <ul class="video-list">
       <li v-for="(video, index) in videos" :key="index" class="video-item">
         <div class="video-details">
-          <span class="video-name">{{ video.name }}</span>
+          <span class="video-name">{{ video.name.slice(video.name.indexOf("_") + 1) }}</span>
           <button @click="generateShareableLink(video)" class="generate-link-button">Generate Link</button>
         </div>
         <div v-if="video.shareableLink" class="shareable-link">
-          Shareable Link: {{ video.shareableLink }}
+          Shareable Link: <a :href="video.shareableLink" target="_blank">{{ video.shareableLink }}</a>
         </div>
       </li>
     </ul>

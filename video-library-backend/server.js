@@ -17,6 +17,24 @@ const upload = multer({ storage: storage });
 // Sample array to store uploaded videos
 const videos = [];
 
+// Function to update the 'videos' array with the list of video files in the 'videos' directory
+function updateVideosArray() {
+  const videoDirectory = path.join(__dirname, 'videos');
+  fs.readdir(videoDirectory, (err, files) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Filter out any non-video files if needed
+    const videoFiles = files.filter((file) => file.endsWith('.mp4')); // Adjust the file extension as needed
+    videos.length = 0; // Clear the existing array
+    videoFiles.forEach((videoFile) => {
+      const shareableLink = `http://localhost:3000/videos/${videoFile}`;
+      videos.push({ link: shareableLink, name: videoFile });
+    });
+  });
+}
+
 // Serve video files from a directory (e.g., 'videos')
 app.use('/videos', express.static(path.join(__dirname, 'videos')));
 
@@ -30,10 +48,12 @@ app.post('/upload', upload.single('video'), (req, res) => {
     const renamedFileName = `${uniqueIdentifier}_${video.originalname}`;
     // Create a shareable link
     const shareableLink = `http://localhost:3000/videos/${renamedFileName}`;
-    // Store the video with its shareable link
-    videos.push({ link: shareableLink, name: video.originalname });
     // Move the uploaded file to the 'videos' directory with the renamed filename
     fs.writeFileSync(path.join(__dirname, 'videos', renamedFileName), video.buffer);
+
+    // Add the video to the 'videos' array
+    videos.push({ link: shareableLink, name: renamedFileName });
+
     res.status(200).json({ message: 'Video uploaded successfully', link: shareableLink });
   } catch (error) {
     console.error(error);
@@ -43,6 +63,8 @@ app.post('/upload', upload.single('video'), (req, res) => {
 
 // Get the list of uploaded videos (GET)
 app.get('/videos', (req, res) => {
+  // Update the 'videos' array with the latest list of video files
+  updateVideosArray();
   // Return the list of uploaded videos
   res.status(200).json(videos);
 });

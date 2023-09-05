@@ -5,7 +5,9 @@
       <label for="fileInput" class="file-input-label">Choose File</label>
       <input type="file" ref="fileInput" id="fileInput" accept="video/*" style="display: none" @change="handleFileChange" />
       <span>{{ selectedFileName }}</span>
-      <button type="submit" :disabled="!selectedFile">Upload</button>
+      <div style="margin-top: 10px;"> <!-- Add margin-top to create space -->
+        <button type="submit" :disabled="!selectedFile">Upload</button>
+      </div>
     </form>
     <div v-if="uploadSuccess" class="success-message">
       Video uploaded successfully!
