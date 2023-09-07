@@ -31,7 +31,7 @@ export default {
 
     const fetchVideos = () => {
       axios
-        .get('http://localhost:3000/videos') // Replace with your server's URL
+        .get('https://pitchlane.onrender.com/videos') // Replace with your server's URL
         .then((response) => {
           if (response.status === 200) {
             videos.value = response.data; // Update the videos array with data from the server

@@ -29,7 +29,7 @@ function updateVideosArray() {
     const videoFiles = files.filter((file) => file.endsWith('.mp4')); // Adjust the file extension as needed
     videos.length = 0; // Clear the existing array
     videoFiles.forEach((videoFile) => {
-      const shareableLink = `http://localhost:3000/videos/${videoFile}`;
+      const shareableLink = `https://pitchlane.onrender.com/videos/${videoFile}`;
       videos.push({ link: shareableLink, name: videoFile });
     });
   });
@@ -47,7 +47,7 @@ app.post('/upload', upload.single('video'), (req, res) => {
     // Rename the video file with the unique identifier
     const renamedFileName = `${uniqueIdentifier}_${video.originalname}`;
     // Create a shareable link
-    const shareableLink = `http://localhost:3000/videos/${renamedFileName}`;
+    const shareableLink = `https://pitchlane.onrender.com/videos/${renamedFileName}`;
     // Move the uploaded file to the 'videos' directory with the renamed filename
     fs.writeFileSync(path.join(__dirname, 'videos', renamedFileName), video.buffer);
 

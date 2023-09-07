@@ -42,7 +42,7 @@ export default {
 
   // Make a POST request to the server
   axios
-  .post('http://localhost:3000/upload', formData)
+  .post('https://pitchlane.onrender.com/upload', formData)
   .then((response) => {
     if (response.status === 200) {
       // The video was successfully uploaded
