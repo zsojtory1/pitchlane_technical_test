@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2>Video List</h2>
-    <!-- Display the list of videos here -->
     <ul class="video-list">
       <li v-for="(video, index) in videos" :key="index" class="video-item">
         <div class="video-details">
@@ -18,20 +17,19 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import axios from 'axios'; // Import Axios for making HTTP requests
+import axios from 'axios';
 
 export default {
   setup() {
     const videos = ref([]);
 
     const generateShareableLink = (video) => {
-      // Simulate generating a shareable link for the video
       video.shareableLink = video.link;
     };
 
     const fetchVideos = () => {
       axios
-        .get('https://pitchlane.onrender.com/videos') // Replace with your server's URL
+        .get('https://pitchlane.onrender.com/videos') 
         .then((response) => {
           if (response.status === 200) {
             videos.value = response.data; // Update the videos array with data from the server

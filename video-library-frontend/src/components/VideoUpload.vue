@@ -5,7 +5,7 @@
       <label for="fileInput" class="file-input-label">Choose File</label>
       <input type="file" ref="fileInput" id="fileInput" accept="video/*" style="display: none" @change="handleFileChange" />
       <span>{{ selectedFileName }}</span>
-      <div style="margin-top: 10px;"> <!-- Add margin-top to create space -->
+      <div style="margin-top: 10px;"> 
         <button type="submit" :disabled="!selectedFile">Upload</button>
       </div>
     </form>
@@ -17,7 +17,7 @@
 
 <script>
 import { ref } from 'vue';
-import axios from 'axios'; // Import Axios for making HTTP requests
+import axios from 'axios';
 
 export default {
   setup() {
